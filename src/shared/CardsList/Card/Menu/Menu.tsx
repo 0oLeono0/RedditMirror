@@ -1,0 +1,29 @@
+import React from 'react';
+import { Dropdown } from '../../../Dropdown';
+import { EIcon, Icons } from '../../../Icon';
+import { EColor, Text } from '../../../Text'
+import styles from './menu.css';
+import { MenuItemsList } from './MenuItemsList';
+
+export function Menu() {
+  return (
+    <div className={styles.menu}>
+      <Dropdown
+        button={
+          <button className={styles.menuButton}>
+            <Icons name={EIcon.menu} />
+          </button>
+        }
+      >
+        <div className={styles.dropdown}>
+          <MenuItemsList postId='1234' />
+          <button className={styles.closeButton}>
+            <Text mobileSize={12} size={14} color={EColor.grey66}>
+              Закрыть
+            </Text>
+          </button>
+        </div>
+      </Dropdown>
+    </div>
+  )
+}
