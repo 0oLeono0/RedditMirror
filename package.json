@@ -9,7 +9,7 @@
     "deploy": "gh-pages -d build:dev",
     "build:dev": "cross-env NODE_ENV=development webpack --config webpack.config.js",
     "build:prod": "cross-env NODE_ENV=production webpack --config webpack.config.js",
-    "dev": "cross-env NODE_ENV=development CLIENT_ID=LY1tMAfncOVpf-QcbTL54g node ./bin/dev.js",
+    "dev": "cross-env NODE_ENV=development CLIENT_ID=PdUvWMuL-AAdSb-dOI-2lA node ./bin/dev.js",
     "test": "jest"
   },
   "author": "",

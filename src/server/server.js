@@ -19,7 +19,7 @@ app.get("/auth", (req, res) => {
     'https://www.reddit.com/api/v1/access_token',
     `grant_type=authorization_code&code=${req.query.code}&redirect_uri=http://localhost:3000/auth`,
     {
-      auth: { username: process.env.CLIENT_ID, password: 'ol_6Q9mpdRsYqzUx6u_y80auuHcNgA' },
+      auth: { username: process.env.CLIENT_ID, password: 'SwUDhgMFX6R7P0cP2VQvQ8LxONbRsg' },
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }
   )

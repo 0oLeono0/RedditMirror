@@ -1,10 +1,13 @@
 import React from 'react';
 import styles from './preview.css';
+import { ICardProps } from '../Card';
 
-export function Preview() {
+export function Preview({thumbnail}:Pick<ICardProps, "thumbnail">) {
   return (
     <div className={styles.preview}>
-      <img src="https://cdn.dribbble.com/userupload/4164273/file/original-c972a93f521d4634e0025c08b3c1b933.png?compress=1&resize=752x" alt="" className={styles.previewImg} />
+      <img src={thumbnail === 'default' || thumbnail === 'self' ?
+              "https://cdn.dribbble.com/userupload/3735911/file/original-e36b9481ee6f30f4bf59e05972264336.png?compress=1&resize=400x300&vertical=top"
+              : thumbnail} alt="" className={styles.previewImg} />
     </div>
   );
 }

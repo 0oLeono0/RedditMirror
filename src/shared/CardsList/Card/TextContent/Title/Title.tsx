@@ -1,11 +1,15 @@
 import React from 'react';
 import styles from './title.css';
 
-export function Title() {
+interface ITitleProps {
+  title?: string
+}
+
+export function Title({title}:ITitleProps) {
   return (
     <h2 className={styles.title}>
       <a href="#post-url" className={styles.postLink}>
-        Следует отметить, что новая модель организационной деятельности Следует отметить, что новая модель организационной деятельности
+        {title}
       </a>
     </h2>
   );
