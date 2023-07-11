@@ -1,11 +1,26 @@
 import React from 'react';
-import { BlockIcon } from '../Icons';
-import { CommentIcon } from '../Icons';
-import { MenuIcon } from '../Icons';
-import { WarningIcon } from '../Icons';
-import { SaveIcon } from '../Icons';
-import { ShareIcon } from '../Icons';
-import { IconAnon } from '../Icons';
+import {
+  BlockIcon,
+  CommentIcon,
+  MenuIcon,
+  WarningIcon,
+  ShareIcon,
+  SaveIcon,
+  IconAnon,
+  KarmaIcon,
+  CodeIcon,
+  ImageIcon,
+  DocumentIcon,
+  DownloadIcon,
+  ProfileIcon,
+  UpdateIcon,
+  LinkIcon,
+  MikroIcon,
+  DiscussIcon,
+  PenIcon,
+  TransliteIcon,
+  PDFIcon,
+} from '../Icons';
 import styles from './icon.css';
 import classNames from 'classnames';
 
@@ -17,6 +32,19 @@ const LIST = {
   share: ShareIcon,
   comment: CommentIcon,
   anon: IconAnon,
+  karma: KarmaIcon,
+  code: CodeIcon,
+  image: ImageIcon,
+  document: DocumentIcon,
+  donwload: DownloadIcon,
+  profile: ProfileIcon,
+  update: UpdateIcon,
+  link: LinkIcon,
+  micro: MikroIcon,
+  discuss: DiscussIcon,
+  pen: PenIcon,
+  translite: TransliteIcon,
+  PDF: PDFIcon,
 };
 
 export enum EIcon {
@@ -27,6 +55,19 @@ export enum EIcon {
   share = 'share',
   comment = 'comment',
   anon = 'anon',
+  karma = 'karma',
+  code = 'code',
+  image = 'image',
+  document = 'document',
+  donwload = 'donwload',
+  profile = 'profile',
+  update = 'update',
+  link = 'link',
+  micro = 'micro',
+  discuss = 'discuss',
+  pen = 'pen',
+  translite = 'translite',
+  PDF = 'PDF',
 }
 
 interface IIconsProps {

@@ -5,8 +5,10 @@ import { postContext } from '../context/postContext';
 
 export interface IPostData {
   data: {
-    id: string
+    subreddit_name_prefixed: string;
+    id: string;
     author: string
+    subreddit: string
     thumbnail: string
     title: string
     score: number
@@ -25,17 +27,15 @@ const postData = useContext(postContext);
       {postData.map(({data}:IPostData) => {
         return (
           < Card 
-          key = {data.id}
-          {...
-            {
+            postID={data.id}
+            {...{
               author: data.author,
+              subreddit: data.subreddit_name_prefixed,
               thumbnail: data.thumbnail,
               title: data.title,
               score: data.score,
               icon_img: data.sr_detail.icon_img
-            }
-          }
-          />)
+            }}          />)
       })}
     </ul>
   );

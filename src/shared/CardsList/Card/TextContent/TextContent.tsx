@@ -5,7 +5,7 @@ import { UserLink } from './UserLink';
 import { ICardProps } from '../Card';
 
 export function TextContent(props: ICardProps) {
-  const { created, author, icon_img, title} = props;
+  const { created, author, icon_img, title, postID, subreddit} = props;
   return (
     <div className={styles.textContent}>
       <div className={styles.metaData}>
@@ -15,7 +15,7 @@ export function TextContent(props: ICardProps) {
           {created}
         </span>
       </div>
-      <Title {...{title}}/>
+      <Title subreddit={subreddit} postID={postID} {...{ title }}/>
     </div>
   );
 }

@@ -5,9 +5,10 @@ import styles from './menuitemslist.css';
 
 interface IMenuItemsListProps {
   postId: string;
+  onClose?: () => void;
 }
 
-export function MenuItemsList({ postId }: IMenuItemsListProps) {
+export function MenuItemsList({ postId, onClose }: IMenuItemsListProps) {
   return (
     <ul className={styles.menuItemsList}>
       <li className={styles.menuItem}>
@@ -41,6 +42,9 @@ export function MenuItemsList({ postId }: IMenuItemsListProps) {
       <li className={styles.menuItem}>
         <Icons name={EIcon.warning} />
         <Text mobileSize={12} size={14} color={EColor.grey99}>Пожаловаться</Text>
+      </li>
+      <li className={styles.menuItem} onClick={onClose}>
+        <Text mobileSize={12} size={14} color={EColor.grey66}>Закрыть</Text>
       </li>
     </ul>
   );

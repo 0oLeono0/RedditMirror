@@ -6,17 +6,17 @@ import { Preview } from './Preview';
 import { TextContent } from './TextContent';
 
 export interface ICardProps {
-  id?: string
+  postID: string
   author: string
+  subreddit: string
   thumbnail?: string
   title?: string
   score: number
   created?: string
   icon_img?: string
 }
-
 export function Card(props: ICardProps) {
-  const {thumbnail, score} = props
+  const {thumbnail, score, subreddit, postID} = props
   return (
     <li className={styles.card}>
       <TextContent {...props} />

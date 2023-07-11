@@ -2,7 +2,13 @@
     padding: 0 0 0 4px;
 }
 
+.up {
+    margin-bottom: 20px;
+}
+
 .karmaValue {
+    transform: translateY(-5px);
+    position: absolute;
     color: var(--greyC4);
     font-size: 12px;
     line-height: 14px;

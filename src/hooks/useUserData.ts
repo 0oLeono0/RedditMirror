@@ -10,7 +10,6 @@ interface IUserData {
 export function useUserData() {
     const [data, setData] = useState<IUserData>({});
     const token = useContext(tokenContext);
-    console.log(token)
 
     useEffect(() => {
         if (token && token.length > 0 && token !== 'undefined') {

@@ -1,29 +1,30 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Dropdown } from '../../../Dropdown';
 import { EIcon, Icons } from '../../../Icon';
-import { EColor, Text } from '../../../Text'
 import styles from './menu.css';
-import { MenuItemsList } from './MenuItemsList';
 
 export function Menu() {
+  const [isDropdownOpened, setIsDropdownOpened] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ x: 0, y: 0, h: 0});
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (isDropdownOpened) {
+      if (!btnRef.current) return;
+    const buttonRect = btnRef.current.getBoundingClientRect();
+    setDropdownPosition({ x: buttonRect.left - 60, y: buttonRect.top + 10 + window.scrollY, h: buttonRect.height });
+    }
+  }, [isDropdownOpened])
+
   return (
     <div className={styles.menu}>
-      <Dropdown
-        button={
-          <button className={styles.menuButton}>
-            <Icons name={EIcon.menu} />
-          </button>
-        }
-      >
-        <div className={styles.dropdown}>
-          <MenuItemsList postId='1234' />
-          <button className={styles.closeButton}>
-            <Text mobileSize={12} size={14} color={EColor.grey66}>
-              Закрыть
-            </Text>
-          </button>
-        </div>
-      </Dropdown>
+      <button className={styles.menuButton} onClick={() => { setIsDropdownOpened(true); }} ref={btnRef}>
+        <Icons name={EIcon.menu} />
+      </button>
+
+      {isDropdownOpened && (
+        <Dropdown onClose={() => setIsDropdownOpened(false)} position={dropdownPosition}/>
+      )}
     </div>
   )
 }
