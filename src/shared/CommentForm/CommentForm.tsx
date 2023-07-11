@@ -1,19 +1,23 @@
-import React, { FormEvent, ChangeEvent, useState, useContext, useEffect, useRef } from 'react';
+import React, { FormEvent, ChangeEvent, useContext, useEffect, useRef } from 'react';
 import { userContext } from '../context/userContext';
 import { EIcon, Icons } from '../Icon';
 import styles from './commentform.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, updateComment } from '../../store';
 
 interface ICommentFormProps {
   answerName?: string
 }
 
 export function CommentForm({answerName}:ICommentFormProps) {
+  const commentValue = useSelector<RootState, string>(state => state.commentText);
+  const dispath = useDispatch();
+
   const {name} = useContext(userContext);
-  const [commentValue, setCommentValue] = useState('');
   const areaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    setCommentValue(`${answerName? answerName : name}, оставьте ваш комментарий`);
+    dispath(updateComment(`${answerName? answerName : name}, оставьте ваш комментарий`));
     if (answerName) {
       if (!areaRef.current) return
       else areaRef.current.focus();
@@ -22,13 +26,11 @@ export function CommentForm({answerName}:ICommentFormProps) {
 
   function hendleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log(commentValue);
   }
 
   function hendleChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    setCommentValue(event.target.value);
+    dispath(updateComment(event.target.value));
   }
-
   return (
     <div className={styles.formWrapper}>
       <form action="" className="commentForm" onSubmit={hendleSubmit}>
