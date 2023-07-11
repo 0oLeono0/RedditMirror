@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { EIcon, Icons } from '../../../Icon';
 import styles from './comment.css';
-import { CommentForm } from '../../../CommentForm';
+import { CommentFormContainer } from '../../../CommentFormContainer';
 
 interface IReplice {
   data: {
@@ -61,7 +61,7 @@ export function Comment(props:ICommentProps) {
           </li>
         </ul>
       </div>
-      {isAnswer && <CommentForm answerName={author}/>}
+      {isAnswer && <CommentFormContainer answerName={author}/>}
       {
       replies !== '' && 
       replies?.data.children.map((replie) => {
