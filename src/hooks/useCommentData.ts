@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { tokenContext } from "../shared/context/tokenContext";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 
 export interface IPostCommentData {
@@ -12,20 +13,21 @@ export interface IPostCommentData {
   }
 }
 
-export function useCommentsData(subreddit: string, postID: string) : Array<IPostCommentData> {
-  const token = useContext(tokenContext);
+export function useCommentsData(subreddit: string, postID: string): Array<IPostCommentData> {
+  const token = useSelector<RootState, string>(state => state.token);
+
   const [commentsData, setCommentsData] = useState([]);
-  
+
   useEffect(() => {
     axios.get(
-      `https://oauth.reddit.com/${subreddit}/comments/${postID}.json`, 
+      `https://oauth.reddit.com/${subreddit}/comments/${postID}.json`,
       {
-        headers: {Authorization: `bearer ${token}`}
+        headers: { Authorization: `bearer ${token}` }
       }
     ).then((res) => {
       setCommentsData(res.data[1].data.children);
     }).catch(console.log)
   }, []);
-  
+
   return commentsData;
 }
