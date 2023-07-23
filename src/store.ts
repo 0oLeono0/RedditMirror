@@ -1,16 +1,32 @@
 import { ActionCreator, AnyAction, Reducer } from "redux";
+import { ME_REQUEST, ME_REQUEST_ERROR, ME_REQUEST_SUCCESS, MeRequestAction, MeRequestErrorAction, MeRequestSuccessAction } from "./store/me/actions";
+import { MeState, meReducer } from "./store/me/reducer";
 
 export type RootState = {
     commentText: string,
     token: string,
+    me: MeState,
 }
 const initialState: RootState = {
     commentText: 'Привет, SkillBox!',
     token: 'undefined',
+    me: {
+        loading: false,
+        erorr: '',
+        data: {},
+    },
 }
 
 const UPDATE_COMMENT = 'UPDATE_COMMENT';
+type UpdateCommentAction = {
+    type: typeof UPDATE_COMMENT;
+    text: string;
+}
 const SET_TOKEN = 'SET_TOKEN';
+type SetTokenAction = {
+    type: typeof SET_TOKEN;
+    token: string;
+}
 export const updateComment: ActionCreator<AnyAction> = (text) => ({
     type: UPDATE_COMMENT,
     text,
@@ -21,7 +37,12 @@ export const setToken: ActionCreator<AnyAction> = (token) => ({
     token,
 });
 
-export const rootReducer: Reducer<RootState> = (state = initialState, action) => {
+type MyAction = UpdateCommentAction
+    | SetTokenAction
+    | MeRequestAction
+    | MeRequestSuccessAction
+    | MeRequestErrorAction;
+export const rootReducer: Reducer<RootState, MyAction> = (state = initialState, action) => {
     switch (action.type) {
         case SET_TOKEN:
             return {
@@ -32,6 +53,13 @@ export const rootReducer: Reducer<RootState> = (state = initialState, action) =>
             return {
                 ...state,
                 commentText: action.text,
+            }
+        case ME_REQUEST:
+        case ME_REQUEST_SUCCESS:
+        case ME_REQUEST_ERROR:
+            return {
+                ...state,
+                me: meReducer(state.me, action),
             }
         default:
             return state;

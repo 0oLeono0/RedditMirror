@@ -8,13 +8,17 @@ import { Layout } from "./shared/Layout";
 import { UserContextProvider } from "./shared/context/userContext";
 import { PostDataProvider } from "./shared/context/postsDataContext";
 
-import { createStore } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { Provider } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { rootReducer } from "./store";
+import thunk from "redux-thunk";
+
+const store = createStore(rootReducer, composeWithDevTools(
+    applyMiddleware(thunk)
+));
 
 
-const store = createStore(rootReducer, composeWithDevTools());
 
 function AppComponent() {
 
