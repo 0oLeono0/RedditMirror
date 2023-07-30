@@ -3,6 +3,7 @@ import styles from './post.css';
 import ReactDOM from 'react-dom';
 import { Comments } from './Comments';
 import { CommentFormContainer } from '../CommentFormContainer';
+import { useUserData } from '../../hooks/useUserData';
 
 interface IPost {
   onClose?: () => void;
@@ -12,6 +13,7 @@ interface IPost {
 
 export function Post(props: IPost) {
   const ref = useRef<HTMLDivElement>(null);
+  const {data} = useUserData();
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -40,7 +42,7 @@ export function Post(props: IPost) {
         <p>Есть над чем задуматься: тщательные исследования конкурентов предстовляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть ассоциативно распределены по отраслям. Прежде всего, начало повседневной работы по формированию позиции однозначно фиксирует необходимость кластеризации усилий. Но сторонники тоталитаризма в науке и по сей день остаются уделом либералов, которые жаждут быть превращены в посмешище, хотя само их существование приносит несомненную пользу обществу.</p>
       </div>
 
-      <CommentFormContainer />
+      <CommentFormContainer answerName={data.name}/>
       <Comments postID={props.postID} score={0} subreddit={props.subreddit} author={''}/>
     </div>
   ), node);

@@ -18,10 +18,7 @@ const store = createStore(rootReducer, composeWithDevTools(
     applyMiddleware(thunk)
 ));
 
-
-
 function AppComponent() {
-
     return (
         <Provider store={store}>
             <UserContextProvider>

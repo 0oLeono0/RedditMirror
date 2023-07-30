@@ -5,6 +5,7 @@ import { RootState } from "../store";
 
 export function usePostsData() {
   const token = useSelector<RootState, string>(state => state.token);
+  console.log(token)
   const [postData, setPostData] = useState([])
 
   useEffect(() => {

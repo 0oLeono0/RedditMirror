@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { EIcon, Icons } from '../../../Icon';
 import styles from './comment.css';
 import { CommentFormContainer } from '../../../CommentFormContainer';
+import { useUserData } from '../../../../hooks/useUserData';
 
 interface IReplice {
   data: {
@@ -20,6 +21,7 @@ interface ICommentProps {
 }
 
 export function Comment(props:ICommentProps) {
+  const {data} = useUserData();
   const {author, body, replies} = props;
   const [isAnswer, setAnswer] = useState(false);
   console.log(props.body)
@@ -61,7 +63,7 @@ export function Comment(props:ICommentProps) {
           </li>
         </ul>
       </div>
-      {isAnswer && <CommentFormContainer answerName={author}/>}
+      {isAnswer && <CommentFormContainer answerName={data.name}/>}
       {
       replies !== '' && 
       replies?.data.children.map((replie) => {

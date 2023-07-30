@@ -1,6 +1,7 @@
-import { ActionCreator, AnyAction, Reducer } from "redux";
+import { Action, ActionCreator, AnyAction, Reducer } from "redux";
 import { ME_REQUEST, ME_REQUEST_ERROR, ME_REQUEST_SUCCESS, MeRequestAction, MeRequestErrorAction, MeRequestSuccessAction } from "./store/me/actions";
 import { MeState, meReducer } from "./store/me/reducer";
+import { ThunkAction } from "redux-thunk";
 
 export type RootState = {
     commentText: string,
@@ -27,6 +28,11 @@ type SetTokenAction = {
     type: typeof SET_TOKEN;
     token: string;
 }
+const SAVE_TOKEN = 'SAVE_TOKEN';
+type SaveTokenAction = {
+    type: typeof SAVE_TOKEN;
+    token: string;
+}
 export const updateComment: ActionCreator<AnyAction> = (text) => ({
     type: UPDATE_COMMENT,
     text,
@@ -41,7 +47,8 @@ type MyAction = UpdateCommentAction
     | SetTokenAction
     | MeRequestAction
     | MeRequestSuccessAction
-    | MeRequestErrorAction;
+    | MeRequestErrorAction
+    | SaveTokenAction;
 export const rootReducer: Reducer<RootState, MyAction> = (state = initialState, action) => {
     switch (action.type) {
         case SET_TOKEN:
@@ -61,7 +68,16 @@ export const rootReducer: Reducer<RootState, MyAction> = (state = initialState, 
                 ...state,
                 me: meReducer(state.me, action),
             }
+        case SAVE_TOKEN:
+            return {
+                ...state,
+                token: action.token
+            }
         default:
             return state;
     }
+}
+
+export const saveToken = (): ThunkAction<void, RootState, unknown, Action<string>> => (dispatch) => {
+    dispatch(setToken(window.__token__))
 }

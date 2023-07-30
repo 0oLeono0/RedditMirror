@@ -1,41 +1,43 @@
-import React, { FormEvent, ChangeEvent, useContext, useEffect, useRef } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useRef } from 'react';
 import { userContext } from '../context/userContext';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState, updateComment } from '../../store';
 import { CommentForm } from '../CommentForm';
 
 interface ICommentFormContainerProps {
-    answerName?: string;
-  }
+  answerName?: string;
+}
 
-export function CommentFormContainer({answerName}:ICommentFormContainerProps) {
+export function CommentFormContainer({ answerName }: ICommentFormContainerProps) {
   const commentValue = useSelector<RootState, string>(state => state.commentText);
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
-  const {name} = useContext(userContext);
+  const { name } = useContext(userContext);
   const areaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    dispath(updateComment(`${answerName? answerName : name}, оставьте ваш комментарий`));
-    if (answerName) {
-      if (!areaRef.current) return
-      else areaRef.current.focus();
+    dispatch(updateComment(`${answerName ? answerName : name}, оставьте ваш комментарий`));
+    if (answerName && areaRef.current) {
+      areaRef.current.focus();
     }
   }, [name]);
 
-  function hendleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function handleSubmit(values: { comment: string }) {
+    console.log(values.comment);
+  }
+  
+  function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    dispatch(updateComment(event.target.value));
   }
 
-  function hendleChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    dispath(updateComment(event.target.value));
-  }
+
+
   return (
     <CommentForm
-        value={commentValue}
-        onChange={hendleChange}
-        onSubmit={hendleSubmit}
-        ref={areaRef}
+      value={commentValue}
+      onSubmit={handleSubmit}
+      onChange={handleChange}
+      answerName={answerName}
     />
   );
 }

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useDispatch } from "react-redux";
 import { IUserData, meRequestAsync } from "../store/me/actions";
-import { AnyAction } from "redux";
 
 export function useUserData() {
     const data = useSelector<RootState, IUserData>(state => state.me.data);
@@ -14,7 +13,7 @@ export function useUserData() {
 
     useEffect(() => {
         if (!token) return;
-        dispatch(meRequestAsync() as unknown as AnyAction)
+        dispatch(meRequestAsync() as any)
     }, [token]);
 
     return {
