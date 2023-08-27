@@ -1,25 +1,62 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { useDispatch } from "react-redux";
+import { postRequestAsync } from "../store/post/actions";
+
+let count = 0;
 
 export function usePostsData() {
+  const data = useSelector<RootState, object>(state => state.post.data);
+  const loading = useSelector<RootState, boolean>(state => state.post.loading);
+  const error = useSelector<RootState, string>(state => state.post.error);
+  const after = useSelector<RootState, string>(state => state.post.after);
+  const [ btnFlag, setBtnFlag ] = useState(false);
+
+  const bottomOfList = useRef<HTMLDivElement>(null);
+
   const token = useSelector<RootState, string>(state => state.token);
-  console.log(token)
-  const [postData, setPostData] = useState([])
+  const dispatch = useDispatch()
+
+  function handleLoad(): void {
+    dispatch(postRequestAsync(data, after) as any);
+    count = 0;
+    setBtnFlag(false);
+  }
 
   useEffect(() => {
-      if (token !== "" && token !== 'undefined') {
-        axios.get(
-          "https://oauth.reddit.com/best.json?sr_detail=true", {
-            headers: {Authorization: `bearer ${token}`}
-          }
-        ).then((res) => {
-          setPostData(res.data.data.children);
-        }).catch(console.log);
+    if (token == 'undefined') return;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        if (count < 3) {
+          dispatch(postRequestAsync(data, after) as any);
+          ++count;
+        } else {
+          setBtnFlag(true);
+        }
+      }
+    }, {
+      rootMargin: '20px',
+    });
+
+    if (bottomOfList.current) {
+      observer.observe(bottomOfList.current);
+    }
+
+    return () => {
+      if (bottomOfList.current) {
+        observer.unobserve(bottomOfList.current);
       }
     }
-      , [token]);
+  }, [bottomOfList.current, token, after]);
 
-  return postData;
+  return {
+    data,
+    loading,
+    error,
+    after,
+    bottomOfList,
+    btnFlag,
+    handleLoad,
+  }
 }

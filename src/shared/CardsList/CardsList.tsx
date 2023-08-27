@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card } from './Card/Card';
 import styles from './cardslist.css';
-import { postContext } from '../context/postContext';
+import { usePostsData } from '../../hooks/usePostsData';
 
 export interface IPostData {
   data: {
@@ -21,12 +21,17 @@ export interface IPostData {
 
 
 export function CardsList() {
-const postData = useContext(postContext);
+  const { data, loading, error, bottomOfList, btnFlag, handleLoad } = usePostsData();
+
   return (
     <ul className={styles.cardsList}>
-      {postData.map(({data}:IPostData) => {
+      {Object.values(data).length === 0 && !loading && !error && (
+        <div role='alert' style={{ textAlign: 'center' }}>Нет ни одного поста</div>
+      )}
+
+      {Object.values(data).map(({ data }: IPostData) => {
         return (
-          < Card 
+          < Card
             postID={data.id}
             {...{
               author: data.author,
@@ -35,8 +40,26 @@ const postData = useContext(postContext);
               title: data.title,
               score: data.score,
               icon_img: data.sr_detail.icon_img
-            }}          />)
+            }} />)
       })}
+
+      <div ref={bottomOfList} />
+
+      {loading &&
+        <div className={styles.loader_block}>
+          <div className={styles.loader}></div>
+        </div>
+      }
+
+      {btnFlag && (
+        <button onClick={handleLoad} style={{ textAlign: 'center', color: '#CC6633', width: '100%' }}>Показать еще...</button>
+      )}
+
+      {error && (
+        <div role='alert' style={{ textAlign: 'center' }}>
+          {error}
+        </div>
+      )}
     </ul>
   );
 }

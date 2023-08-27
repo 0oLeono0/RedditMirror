@@ -4,10 +4,17 @@ import { ICardProps } from '../../CardsList/Card';
 import styles from './comments.css';
 import { Comment } from './Comment/Comment';
 
-export function Comments(props: ICardProps) {
-  const { postID, subreddit } = props;
-  const comments = useCommentsData(subreddit, postID);
-  console.log(comments)
+interface IComments {
+  postID: string;
+  subreddit: string;
+  score: number;
+  author: string;
+}
+
+export function Comments(props: IComments) {
+  const { postID } = props;
+  const comments = useCommentsData(postID);
+  console.log(comments);
 
   return (
     <div className={styles.commentWrapper}>

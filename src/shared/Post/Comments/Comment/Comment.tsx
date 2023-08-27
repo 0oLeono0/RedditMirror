@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { EIcon, Icons } from '../../../Icon';
 import styles from './comment.css';
 import { CommentFormContainer } from '../../../CommentFormContainer';
-import { useUserData } from '../../../../hooks/useUserData';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store';
+import { IUserData } from '../../../../store/me/actions';
 
 interface IReplice {
   data: {
@@ -21,10 +23,9 @@ interface ICommentProps {
 }
 
 export function Comment(props:ICommentProps) {
-  const {data} = useUserData();
+  const data = useSelector<RootState, IUserData>(state => state.me.data);
   const {author, body, replies} = props;
   const [isAnswer, setAnswer] = useState(false);
-  console.log(props.body)
   return (
     <div className={styles.commentWrapper}>
       <div className={styles.counter}> 

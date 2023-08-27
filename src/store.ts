@@ -2,11 +2,14 @@ import { Action, ActionCreator, AnyAction, Reducer } from "redux";
 import { ME_REQUEST, ME_REQUEST_ERROR, ME_REQUEST_SUCCESS, MeRequestAction, MeRequestErrorAction, MeRequestSuccessAction } from "./store/me/actions";
 import { MeState, meReducer } from "./store/me/reducer";
 import { ThunkAction } from "redux-thunk";
+import { POST_REQUEST, POST_REQUEST_ERROR, POST_REQUEST_SUCCESS, PostRequestAction, PostRequestErorrAction, PostRequestSuccessAction } from "./store/post/actions";
+import { PostState, postReducer } from "./store/post/reducer";
 
 export type RootState = {
     commentText: string,
     token: string,
     me: MeState,
+    post: PostState,
 }
 const initialState: RootState = {
     commentText: 'Привет, SkillBox!',
@@ -16,6 +19,12 @@ const initialState: RootState = {
         erorr: '',
         data: {},
     },
+    post: {
+        loading: false,
+        error: '',
+        data: [],
+        after: '',
+    }
 }
 
 const UPDATE_COMMENT = 'UPDATE_COMMENT';
@@ -48,7 +57,10 @@ type MyAction = UpdateCommentAction
     | MeRequestAction
     | MeRequestSuccessAction
     | MeRequestErrorAction
-    | SaveTokenAction;
+    | SaveTokenAction
+    | PostRequestAction
+    | PostRequestSuccessAction
+    | PostRequestErorrAction;
 export const rootReducer: Reducer<RootState, MyAction> = (state = initialState, action) => {
     switch (action.type) {
         case SET_TOKEN:
@@ -72,6 +84,13 @@ export const rootReducer: Reducer<RootState, MyAction> = (state = initialState, 
             return {
                 ...state,
                 token: action.token
+            }
+        case POST_REQUEST:
+        case POST_REQUEST_SUCCESS:
+        case POST_REQUEST_ERROR:
+            return {
+                ...state,
+                post: postReducer(state.post, action),
             }
         default:
             return state;

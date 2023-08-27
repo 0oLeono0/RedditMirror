@@ -13,14 +13,15 @@ export interface IPostCommentData {
   }
 }
 
-export function useCommentsData(subreddit: string, postID: string): Array<IPostCommentData> {
+export function useCommentsData(postID: string): Array<IPostCommentData> {
+  console.log(postID);
   const token = useSelector<RootState, string>(state => state.token);
 
   const [commentsData, setCommentsData] = useState([]);
 
   useEffect(() => {
     axios.get(
-      `https://oauth.reddit.com/${subreddit}/comments/${postID}.json`,
+      `https://oauth.reddit.com/comments/${postID}`,
       {
         headers: { Authorization: `bearer ${token}` }
       }
