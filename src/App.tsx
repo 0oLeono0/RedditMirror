@@ -13,7 +13,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { rootReducer } from "./store";
 import thunk from "redux-thunk";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { Post } from "./shared/Post";
 import { NotFound } from "./shared/NotFound";
 import { PostPage } from "./shared/PostPage";
 
@@ -35,11 +34,11 @@ function AppComponent() {
                             <Header />
                             <Content>
                                 <Routes>
-                                    <Route path="/posts" element={<CardsList />}/>
-                                    <Route path="/posts/:id" element={<PostPage />}/>
-                                    <Route path="/auth" element={<Navigate replace to='/posts' />}/>
-                                    <Route path="/" element={<Navigate replace to='/posts' />}/>
-                                    <Route path="*" element={<NotFound/>}/>
+                                    <Route path="/posts" element={<CardsList />} />
+                                    <Route path="/posts/:id" element={<PostPage />} />
+                                    <Route path="/auth" element={<Navigate replace to='/posts' />} />
+                                    <Route path="/" element={<Navigate replace to='/posts' />} />
+                                    <Route path="*" element={<NotFound />} />
                                 </Routes>
                             </Content>
                         </Layout>

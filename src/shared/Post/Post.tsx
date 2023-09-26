@@ -15,6 +15,7 @@ export function Post() {
   const params = useParams()
   const posts = useSelector<RootState, object>(state => state.post.data);
   const post = Object.values(posts).find((element) => element.data.id == params.id);
+  console.log(post.data.subreddit)
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -25,13 +26,13 @@ export function Post() {
 
     document.addEventListener('click', handleClick);
 
-    return ()=> {
+    return () => {
       document.removeEventListener('click', handleClick);
     }
   }, []);
 
   const node = document.querySelector('#modal_root');
-  if(!node) return null;
+  if (!node) return null;
   if (!params.id) return null;
 
 
@@ -45,8 +46,8 @@ export function Post() {
         <p>Есть над чем задуматься: тщательные исследования конкурентов предстовляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть ассоциативно распределены по отраслям. Прежде всего, начало повседневной работы по формированию позиции однозначно фиксирует необходимость кластеризации усилий. Но сторонники тоталитаризма в науке и по сей день остаются уделом либералов, которые жаждут быть превращены в посмешище, хотя само их существование приносит несомненную пользу обществу.</p>
       </div>
 
-      <CommentFormContainer answerName={data.name}/>
-      <Comments postID={params.id} score={0} subreddit={post.data.subreddit} author={''}/>
+      <CommentFormContainer answerName={data.name} />
+      <Comments postID={params.id} score={0} subreddit={post.data.subreddit} author={''} />
     </div>
   ), node);
 }

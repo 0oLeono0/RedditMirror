@@ -1,36 +1,31 @@
-import React, { ChangeEvent, useContext, useEffect, useRef } from 'react';
-import { userContext } from '../context/userContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, updateComment } from '../../store';
+import React, { ChangeEvent, useEffect, useRef } from 'react';
 import { CommentForm } from '../CommentForm';
+import { useStore } from '../../store/zustandStore';
 
 interface ICommentFormContainerProps {
   answerName?: string;
 }
 
-export function CommentFormContainer({ answerName }: ICommentFormContainerProps) {
-  const commentValue = useSelector<RootState, string>(state => state.commentText);
-  const dispatch = useDispatch();
 
-  const { name } = useContext(userContext);
+export function CommentFormContainer({ answerName }: ICommentFormContainerProps) {
+  const commentValue = useStore(state => state.commentText);
+  const { updateComment } = useStore();
   const areaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    dispatch(updateComment(`${answerName ? answerName : name}, оставьте ваш комментарий`));
+    updateComment(`${answerName ? answerName : name}, оставьте ваш комментарий`);
     if (answerName && areaRef.current) {
       areaRef.current.focus();
     }
-  }, [name]);
+  }, [answerName]);
 
   function handleSubmit(values: { comment: string }) {
     console.log(values.comment);
   }
-  
+
   function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    dispatch(updateComment(event.target.value));
+    updateComment(event.target.value);
   }
-
-
 
   return (
     <CommentForm
